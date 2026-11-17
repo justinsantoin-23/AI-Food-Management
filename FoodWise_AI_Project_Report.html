@@ -1,0 +1,3540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FoodWise AI — Project Presentation Documentation</title>
+<style>
+
+@page {
+    size: A4 portrait;
+    margin: 0;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color: #0f172a;
+}
+.page {
+    width: 210mm;
+    height: 297mm;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    box-sizing: border-box;
+    padding: 10mm 6mm;
+    position: relative;
+}
+.browser-window {
+    width: 198mm;
+    height: 156mm;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.title-bar {
+    background: #e2e8f0;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border-bottom: 1px solid #cbd5e1;
+    user-select: none;
+}
+.tab {
+    background: #ffffff;
+    height: 26px;
+    padding: 0 14px;
+    border-radius: 6px 6px 0 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 -1px 3px rgba(0,0,0,0.05);
+}
+.window-controls {
+    margin-left: auto;
+    display: flex;
+    gap: 7px;
+}
+.win-btn {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.win-close { background: #ef4444; }
+.win-min { background: #f59e0b; }
+.win-max { background: #10b981; }
+
+.toolbar {
+    background: #ffffff;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 10px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.nav-arrows {
+    display: flex;
+    gap: 10px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: bold;
+}
+.address-bar {
+    flex: 1;
+    background: #f1f5f9;
+    border-radius: 14px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 11px;
+    color: #334155;
+    gap: 6px;
+}
+.lock-icon {
+    color: #059669;
+    font-size: 10px;
+}
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #64748b;
+    font-size: 12px;
+}
+.avatar {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #ffffff;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* App Layout inside Viewport */
+.viewport {
+    flex: 1;
+    overflow: hidden;
+    background: #f8fafc;
+    position: relative;
+    display: flex;
+    font-size: 12px;
+}
+.sidebar {
+    width: 190px;
+    background: #0f172a;
+    color: #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 10px;
+    border-right: 1px solid #1e293b;
+    flex-shrink: 0;
+}
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 0 6px;
+}
+.brand-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+}
+.brand-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+}
+.brand-sub {
+    font-size: 9px;
+    color: #94a3b8;
+}
+.nav-group-title {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    padding: 6px 8px 3px;
+    font-weight: 700;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #94a3b8;
+    text-decoration: none;
+    margin-bottom: 2px;
+}
+.nav-item.active {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    font-weight: 600;
+}
+.user-panel {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 4px;
+}
+.user-panel .name {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+.user-panel .role {
+    font-size: 9px;
+    color: #10b981;
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #f8fafc;
+}
+.top-header {
+    background: #ffffff;
+    height: 42px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+.header-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+}
+.header-crumb {
+    font-size: 10px;
+    color: #64748b;
+}
+.header-tools {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.bell-btn {
+    position: relative;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #475569;
+}
+.bell-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 8px;
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.main-body {
+    flex: 1;
+    padding: 12px 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Common UI Elements */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+.stat-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.stat-card .label {
+    font-size: 9.5px;
+    color: #64748b;
+    font-weight: 500;
+}
+.stat-card .value {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 2px 0;
+}
+.stat-card .sub {
+    font-size: 8.5px;
+    color: #64748b;
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.card-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 2px;
+}
+.card-sub {
+    font-size: 9px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+/* Pills */
+.pill {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 99px;
+    font-size: 9px;
+    font-weight: 700;
+}
+.pill-fresh { background: #d1fae5; color: #047857; }
+.pill-soon { background: #fef3c7; color: #b45309; }
+.pill-today { background: #ffedd5; color: #c2410c; }
+.pill-expired { background: #fee2e2; color: #b91c1c; }
+.pill-blue { background: #e0e7ff; color: #4338ca; }
+.pill-green { background: #dcfce7; color: #15803d; }
+.pill-gray { background: #f1f5f9; color: #475569; }
+
+/* Table */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+}
+.data-table th {
+    text-align: left;
+    padding: 6px 8px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 9px;
+    text-transform: uppercase;
+}
+.data-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+    vertical-align: middle;
+}
+.btn {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-size: 9.5px;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.btn-pri {
+    background: #10b981;
+    border-color: #10b981;
+    color: #ffffff;
+}
+.btn-danger {
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 10px;
+}
+.modal-box {
+    background: #ffffff;
+    border-radius: 10px;
+    width: 440px;
+    max-width: 95%;
+    padding: 16px 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    border: 1px solid #e2e8f0;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.modal-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+}
+.modal-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.form-group.full {
+    grid-column: 1 / -1;
+}
+.form-label {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: #475569;
+}
+.form-input {
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 10px;
+    background: #ffffff;
+    color: #0f172a;
+}
+
+/* Bar progress */
+.progress-bar {
+    height: 6px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 3px;
+}
+.progress-fill {
+    height: 100%;
+    background: #10b981;
+    border-radius: 4px;
+}
+
+/* Banner */
+.impact-banner {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border: 1px solid #a7f3d0;
+    border-radius: 8px;
+    padding: 9px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.impact-banner-text h4 {
+    color: #065f46;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+.impact-banner-text p {
+    color: #047857;
+    font-size: 9px;
+}
+    
+</style>
+</head>
+<body>
+
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Sign In</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/auth/login</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            <div class="content-area" style="background:#475569; display:flex; align-items:center; justify-content:center;">
+                
+    <div style="display:flex; width:100%; height:100%; background:#ffffff;">
+        <div style="flex:1; background:linear-gradient(145deg, #064e3b, #047857); color:#fff; padding:28px 24px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px;">
+                    <div style="width:32px; height:32px; border-radius:8px; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:16px;">🌿</div>
+                    <b style="font-size:16px;">FoodWise AI</b>
+                </div>
+                <h2 style="font-size:22px; font-weight:800; line-height:1.2; margin-bottom:8px;">Less waste.<br/>More possibility.</h2>
+                <p style="font-size:10.5px; opacity:0.85; line-height:1.4;">The smarter AI system to predict food expiry, minimize supermarket shrink, and connect surplus with local community food banks.</p>
+            </div>
+            
+            <div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:8px; padding:12px; margin:16px 0;">
+                <div style="font-size:9.5px; text-transform:uppercase; letter-spacing:0.5px; opacity:0.8; margin-bottom:4px;">Redistribution Mission</div>
+                <div style="font-size:11px; font-weight:600;">Good food belongs on tables, not in landfills. Powered by fast heuristics & live matching.</div>
+            </div>
+            
+            <div style="display:flex; gap:18px;">
+                <div>
+                    <div style="font-size:16px; font-weight:800;">120k+ kg</div>
+                    <div style="font-size:8.5px; opacity:0.8;">Food Rescued Together</div>
+                </div>
+                <div>
+                    <div style="font-size:16px; font-weight:800;">250+</div>
+                    <div style="font-size:8.5px; opacity:0.8;">Community Partners</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="flex:1.2; padding:28px 32px; display:flex; flex-direction:column; justify-content:center;">
+            <div style="max-width:280px; margin:0 auto; width:100%;">
+                <h3 style="font-size:18px; font-weight:700; color:#0f172a; margin-bottom:4px;">Welcome back.</h3>
+                <p style="font-size:10px; color:#64748b; margin-bottom:14px;">Sign in to keep good food moving.</p>
+                
+                <div style="display:flex; background:#f1f5f9; border-radius:6px; padding:2px; margin-bottom:12px;">
+                    <button style="flex:1; border:0; background:#fff; color:#047857; font-weight:700; font-size:10px; padding:5px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.06);">Supermarket</button>
+                    <button style="flex:1; border:0; background:none; color:#64748b; font-size:10px; padding:5px;">NGO / Charity</button>
+                </div>
+                
+                <div style="margin-bottom:8px;">
+                    <label style="font-size:9.5px; font-weight:600; color:#334155; display:block; margin-bottom:2px;">Work email *</label>
+                    <input style="width:100%; border:1px solid #cbd5e1; border-radius:5px; padding:6px 8px; font-size:10px;" value="store@demo.local"/>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label style="font-size:9.5px; font-weight:600; color:#334155; display:block; margin-bottom:2px;">Password *</label>
+                    <input type="password" style="width:100%; border:1px solid #cbd5e1; border-radius:5px; padding:6px 8px; font-size:10px;" value="••••••••••••"/>
+                </div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:9.5px; margin-bottom:12px;">
+                    <label style="display:flex; align-items:center; gap:4px; color:#475569;"><input type="checkbox" checked/> Keep me signed in</label>
+                    <span style="color:#059669; font-weight:600; cursor:pointer;">Forgot password?</span>
+                </div>
+                
+                <button style="width:100%; background:#10b981; color:#fff; border:0; border-radius:6px; padding:7px; font-size:11px; font-weight:700; margin-bottom:8px;">Sign in to Dashboard</button>
+                <button style="width:100%; background:#fff; border:1px solid #cbd5e1; border-radius:6px; padding:6px; font-size:10px; font-weight:600; color:#475569;">Continue with Google Workspace</button>
+                
+                <div style="text-align:center; margin-top:12px; font-size:9px; color:#64748b;">
+                    New to FoodWise AI? <b style="color:#059669;">Create an account</b>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Dashboard Overview</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/dashboard</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item active"><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Dashboard / Supermarket View</div>
+            <div class="header-title">Welcome back, Demo Fresh Mart</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">+ Add Inventory</button>
+            <div class="bell-btn">🔔<span class="bell-badge">3</span></div>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="impact-banner">
+            <div class="impact-banner-text">
+                <h4>EVERY GOOD MEAL DESERVES A SECOND CHANCE</h4>
+                <p>Reduce Waste. Redistribute Surplus. Nourish Lives with algorithmic demand forecasting.</p>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <span class="pill pill-fresh">🌿 245 kg Saved</span>
+                <span class="pill pill-blue">🤝 490 Meals</span>
+            </div>
+        </div>
+        
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="label">Total Tracked Inventory</span>
+                <span class="value">8 <span style="font-size:11px; font-weight:normal; color:#64748b;">products</span></span>
+                <span class="sub">162 active batch items</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Total Stock Quantity</span>
+                <span class="value" style="color:#059669;">162 kg/units</span>
+                <span class="sub">Estimated value $1,280.50</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Expiring Soon (&le;3d)</span>
+                <span class="value" style="color:#f59e0b;">7 <span style="font-size:11px; font-weight:normal; color:#64748b;">batches</span></span>
+                <span class="sub">Needs immediate review</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Active Surplus Offers</span>
+                <span class="value" style="color:#2563eb;">6 <span style="font-size:11px; font-weight:normal; color:#64748b;">listings</span></span>
+                <span class="sub">Open for NGO pickup</span>
+            </div>
+        </div>
+        
+        <div class="two-col">
+            <div class="card">
+                <div class="card-title">Inventory Distribution by Category</div>
+                <div class="card-sub">Current warehouse units across recorded food categories</div>
+                <div style="display:flex; flex-direction:column; gap:6px; margin-top:6px;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9.5px;"><span>Bakery & Bread</span><b>45 units</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:75%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9.5px;"><span>Fruits & Vegetables</span><b>52 kg</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:90%; background:#059669;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9.5px;"><span>Dairy & Eggs</span><b>38 liters</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:60%; background:#3b82f6;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9.5px;"><span>Grains & Staples</span><b>27 kg</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:45%; background:#f59e0b;"></div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Expiry Status Breakdown</div>
+                <div class="card-sub">Real-time lifecycle risk calculation from active database records</div>
+                <div style="display:flex; align-items:center; gap:16px; margin-top:8px;">
+                    <div style="width:68px; height:68px; border-radius:50%; background:conic-gradient(#10b981 0% 65%, #f59e0b 65% 85%, #ef4444 85% 100%); display:flex; align-items:center; justify-content:center;">
+                        <div style="width:44px; height:44px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; color:#0f172a;">65%</div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:4px; font-size:9.5px;">
+                        <div style="display:flex; align-items:center; gap:6px;"><span style="width:8px; height:8px; border-radius:2px; background:#10b981;"></span> Fresh (&gt; 3 days) <b>65% (105u)</b></div>
+                        <div style="display:flex; align-items:center; gap:6px;"><span style="width:8px; height:8px; border-radius:2px; background:#f59e0b;"></span> Expiring Soon (1-3d) <b>20% (35u)</b></div>
+                        <div style="display:flex; align-items:center; gap:6px;"><span style="width:8px; height:8px; border-radius:2px; background:#ef4444;"></span> Critical (&le; 24h) <b>15% (22u)</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Barcode & QR Scanner</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/scanner</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item active"><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Inventory Management / Hardware Integration</div>
+            <div class="header-title">Barcode & QR Code Scanner</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn">View Scan History</button>
+            <button class="btn btn-pri">Scanner Settings</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="card" style="margin-bottom:8px;">
+            <div class="card-title">Instant Inventory Lookup</div>
+            <div class="card-sub">Look up an inventory item instantly using its barcode, QR code or SKU number</div>
+            
+            <div style="display:flex; gap:10px; margin:10px 0;">
+                <input style="flex:1; border:1px solid #cbd5e1; border-radius:6px; padding:7px 10px; font-size:11px;" value="DEMO735005380019" placeholder="Enter barcode or SKU..."/>
+                <button class="btn btn-pri" style="padding:0 14px;">Look up</button>
+                <button class="btn" style="padding:0 14px;">📷 Open Camera</button>
+            </div>
+        </div>
+        
+        <div class="two-col">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div class="card-title">Scanned Item Result: Fresh Farm Tomatoes</div>
+                    <span class="pill pill-fresh">In Stock</span>
+                </div>
+                <div class="card-sub">Barcode: DEMO735005380019 · Category: Fruits & Vegetables</div>
+                
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:10px; margin-top:8px;">
+                    <div style="background:#f8fafc; padding:8px; border-radius:6px; border:1px solid #e2e8f0;">
+                        <span style="color:#64748b; font-size:9px;">Current Stock</span><br/>
+                        <b style="font-size:13px; color:#0f172a;">25.0 kg</b>
+                    </div>
+                    <div style="background:#f8fafc; padding:8px; border-radius:6px; border:1px solid #e2e8f0;">
+                        <span style="color:#64748b; font-size:9px;">Calculated Waste Risk</span><br/>
+                        <b style="font-size:13px; color:#f59e0b;">Risk Score: 88 (High)</b>
+                    </div>
+                    <div style="background:#f8fafc; padding:8px; border-radius:6px; border:1px solid #e2e8f0;">
+                        <span style="color:#64748b; font-size:9px;">Expiry Date</span><br/>
+                        <b>2026-11-19 (2 days left)</b>
+                    </div>
+                    <div style="background:#f8fafc; padding:8px; border-radius:6px; border:1px solid #e2e8f0;">
+                        <span style="color:#64748b; font-size:9px;">Storage Location</span><br/>
+                        <b>Cold Storage Room B</b>
+                    </div>
+                </div>
+                
+                <div style="display:flex; gap:6px; margin-top:10px;">
+                    <button class="btn btn-pri" style="flex:1;">List for Donation</button>
+                    <button class="btn" style="flex:1;">Record Sale</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">How Instant Verification Works</div>
+                <div class="card-sub">Real-time warehouse verification lifecycle</div>
+                
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
+                    <div style="display:flex; gap:10px;">
+                        <span style="width:20px; height:20px; border-radius:50%; background:#d1fae5; color:#059669; font-weight:bold; font-size:10px; display:flex; align-items:center; justify-content:center;">01</span>
+                        <div>
+                            <b style="font-size:10.5px;">Scan Barcode / SKU</b>
+                            <p style="font-size:9px; color:#64748b;">Reads EAN-13, UPC, Code 128, Code 39 or 2D QR codes.</p>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <span style="width:20px; height:20px; border-radius:50%; background:#dbeafe; color:#2563eb; font-weight:bold; font-size:10px; display:flex; align-items:center; justify-content:center;">02</span>
+                        <div>
+                            <b style="font-size:10.5px;">Find Product & Batches</b>
+                            <p style="font-size:9px; color:#64748b;">Loads matching SKU record and active lot batches from database.</p>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <span style="width:20px; height:20px; border-radius:50%; background:#fef3c7; color:#d97706; font-weight:bold; font-size:10px; display:flex; align-items:center; justify-content:center;">03</span>
+                        <div>
+                            <b style="font-size:10.5px;">Compute Expiry Risk</b>
+                            <p style="font-size:9px; color:#64748b;">Runs 14-day moving average demand forecast to flag surplus risk.</p>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <span style="width:20px; height:20px; border-radius:50%; background:#ede9fe; color:#7c3aed; font-weight:bold; font-size:10px; display:flex; align-items:center; justify-content:center;">04</span>
+                        <div>
+                            <b style="font-size:10.5px;">Update Stock or Route to NGO</b>
+                            <p style="font-size:9px; color:#64748b;">One-click transfer to surplus donation listings with automatic notifications.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Add Inventory Modal</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/inventory?modal=add</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item active"><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Inventory Management / Products</div>
+            <div class="header-title">Add Food Product Modal</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">+ Add Inventory</button>
+        </div>
+    </div>
+    <div class="main-body" style="position:relative;">
+        <div class="card" style="filter:blur(1px); opacity:0.6;">
+            <div class="card-title">Food Inventory Records</div>
+            <div style="height:200px;"></div>
+        </div>
+        
+        <div class="modal-overlay">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <div class="modal-title">Add Food Inventory Item</div>
+                    <span style="cursor:pointer; font-size:14px; color:#94a3b8;">✕</span>
+                </div>
+                
+                <div class="modal-form-grid">
+                    <div class="form-group full">
+                        <label class="form-label">Product Name *</label>
+                        <input class="form-input" value="Organic Farm Tomatoes"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Barcode / SKU *</label>
+                        <input class="form-input" value="SKU-TOM-0241"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category *</label>
+                        <select class="form-input">
+                            <option selected>Fruits & Vegetables</option>
+                            <option>Bakery</option>
+                            <option>Dairy & Eggs</option>
+                            <option>Grains & Staples</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Quantity *</label>
+                        <input class="form-input" type="number" value="25.0"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Unit *</label>
+                        <select class="form-input">
+                            <option selected>kg</option>
+                            <option>units</option>
+                            <option>liters</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Purchase Date *</label>
+                        <input class="form-input" type="date" value="2026-11-15"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Expiry Date *</label>
+                        <input class="form-input" type="date" value="2026-11-19"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Unit Purchase Price ($) *</label>
+                        <input class="form-input" type="number" value="2.00"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Storage Location</label>
+                        <input class="form-input" value="Cold Room B (Shelves 3-4)"/>
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label">Supplier Notes</label>
+                        <input class="form-input" value="Green Valley Local Growers"/>
+                    </div>
+                </div>
+                
+                <div style="display:flex; justify-content:flex-end; gap:8px;">
+                    <button class="btn">Cancel</button>
+                    <button class="btn btn-pri">Save & Register Batch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Dashboard Activity</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/dashboard#activity</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item active"><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Dashboard / Activity Feeds</div>
+            <div class="header-title">Recent NGO Reservations & Listings</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn">Refresh Feeds</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <div>
+                    <div class="card-title">Recent NGO Reservations</div>
+                    <div class="card-sub">Surplus requests submitted by verified local charities</div>
+                </div>
+                <span class="pill pill-blue">2 Pending Review</span>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>NGO Partner</th>
+                        <th>Surplus Food Item</th>
+                        <th>Requested Qty</th>
+                        <th>Pickup Scheduled</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Demo Hope Kitchen</b><br/><span style="font-size:8.5px; color:#64748b;">Community Shelter</span></td>
+                        <td>Organic Farm Tomatoes</td>
+                        <td>20.0 kg</td>
+                        <td>Today, 2:30 PM</td>
+                        <td><span class="pill pill-today">Pending Review</span></td>
+                        <td><button class="btn btn-pri">Accept & Schedule</button></td>
+                    </tr>
+                    <tr>
+                        <td><b>Demo Seva Trust</b><br/><span style="font-size:8.5px; color:#64748b;">Food Bank Network</span></td>
+                        <td>Artisan Bread Loaves</td>
+                        <td>30.0 units</td>
+                        <td>Tomorrow, 10:00 AM</td>
+                        <td><span class="pill pill-fresh">Accepted</span></td>
+                        <td><button class="btn">Mark Picked Up</button></td>
+                    </tr>
+                    <tr>
+                        <td><b>Demo Green Hands</b><br/><span style="font-size:8.5px; color:#64748b;">Zero-Waste Alliance</span></td>
+                        <td>Fresh Whole Milk</td>
+                        <td>20.0 liters</td>
+                        <td>12-11-2026, 4:00 PM</td>
+                        <td><span class="pill pill-green">Picked Up</span></td>
+                        <td><span style="font-size:9px; color:#059669; font-weight:600;">✓ Completed</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <div>
+                    <div class="card-title">Active Donation Listings</div>
+                    <div class="card-sub">Surplus inventory batches currently visible to verified NGO partners</div>
+                </div>
+                <button class="btn btn-pri">+ Create New Listing</button>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Offered Item</th>
+                        <th>Category</th>
+                        <th>Offered Qty</th>
+                        <th>Remaining</th>
+                        <th>Pickup Window Closes</th>
+                        <th>Match Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Organic Farm Tomatoes</b></td>
+                        <td>Fruits & Vegetables</td>
+                        <td>25.0 kg</td>
+                        <td><b style="color:#059669;">5.0 kg</b></td>
+                        <td>Today, 6:00 PM</td>
+                        <td><span class="pill pill-fresh">95% Match</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Artisan Sourdough Bread</b></td>
+                        <td>Bakery</td>
+                        <td>30.0 units</td>
+                        <td><b style="color:#64748b;">0.0 units</b></td>
+                        <td>Tomorrow, 12:00 PM</td>
+                        <td><span class="pill pill-blue">Allocated</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Farm Fresh Whole Milk</b></td>
+                        <td>Dairy & Eggs</td>
+                        <td>40.0 liters</td>
+                        <td><b style="color:#059669;">20.0 liters</b></td>
+                        <td>In 2 days</td>
+                        <td><span class="pill pill-fresh">88% Match</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Inventory Management</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/inventory</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item active"><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Inventory / Stock Master</div>
+            <div class="header-title">Inventory Management</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn">Import CSV</button>
+            <button class="btn">Export CSV</button>
+            <button class="btn btn-pri">+ Add Inventory</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="label">Total Stock Items</span>
+                <span class="value">162</span>
+                <span class="sub">Across 4 food categories</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Healthy Inventory</span>
+                <span class="value" style="color:#059669;">1</span>
+                <span class="sub">Ready for sale or use</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">At-Risk Inventory</span>
+                <span class="value" style="color:#f59e0b;">7</span>
+                <span class="sub">Items need attention</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Total Stock Value</span>
+                <span class="value">£1,280.50</span>
+                <span class="sub">Estimated current value</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div style="display:flex; gap:8px;">
+                    <input style="border:1px solid #cbd5e1; border-radius:5px; padding:4px 8px; font-size:10px; width:180px;" placeholder="Search SKU, product or supplier..."/>
+                    <select style="border:1px solid #cbd5e1; border-radius:5px; padding:4px 8px; font-size:10px;">
+                        <option>All Categories</option>
+                        <option>Bakery</option>
+                        <option>Fruits & Vegetables</option>
+                    </select>
+                </div>
+                <div style="font-size:9.5px; color:#64748b;">Showing <b>5</b> active inventory batches</div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Item / SKU</th>
+                        <th>Category</th>
+                        <th>Available</th>
+                        <th>Expiry Date</th>
+                        <th>Storage</th>
+                        <th>Risk Score</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Fresh Tomatoes</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-TOM-03</span></td>
+                        <td>Fruits & Vegetables</td>
+                        <td>25.0 kg</td>
+                        <td>2026-11-19</td>
+                        <td>Cold Room</td>
+                        <td><span class="pill pill-today">High · 94</span></td>
+                        <td>
+                            <button class="btn btn-pri">Donate</button>
+                            <button class="btn">Sale</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Bread Loaves</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-BRD-01</span></td>
+                        <td>Bakery</td>
+                        <td>30.0 units</td>
+                        <td>2026-11-18</td>
+                        <td>Pantry</td>
+                        <td><span class="pill pill-today">High · 88</span></td>
+                        <td>
+                            <button class="btn btn-pri">Donate</button>
+                            <button class="btn">Sale</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Pasteurized Milk</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-MLK-04</span></td>
+                        <td>Dairy & Eggs</td>
+                        <td>40.0 liters</td>
+                        <td>2026-11-20</td>
+                        <td>Chiller</td>
+                        <td><span class="pill pill-soon">Med · 76</span></td>
+                        <td>
+                            <button class="btn btn-pri">Donate</button>
+                            <button class="btn">Sale</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Fresh Curd</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-CRD-02</span></td>
+                        <td>Dairy & Eggs</td>
+                        <td>12.0 liters</td>
+                        <td>2026-11-17</td>
+                        <td>Chiller</td>
+                        <td><span class="pill pill-expired">Critical · 99</span></td>
+                        <td>
+                            <button class="btn btn-danger">Expired</button>
+                            <button class="btn">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Basmati Rice</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-RIC-05</span></td>
+                        <td>Grains & Staples</td>
+                        <td>50.0 kg</td>
+                        <td>2027-03-15</td>
+                        <td>Dry Store</td>
+                        <td><span class="pill pill-fresh">Low · 12</span></td>
+                        <td>
+                            <button class="btn">Sale</button>
+                            <button class="btn">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Expiry Tracking</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/expiry</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item active"><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Operations / Expiry Intelligence</div>
+            <div class="header-title">Batch-Level Expiry Tracking</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">Export Expiry Log</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="label">Fresh Batches</span>
+                <span class="value" style="color:#059669;">1</span>
+                <span class="sub">Past configured warning window</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Expiring Soon</span>
+                <span class="value" style="color:#f59e0b;">2</span>
+                <span class="sub">Within 3-day warning window</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Critical Action Required</span>
+                <span class="value" style="color:#ef4444;">5</span>
+                <span class="sub">Requires immediate review</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Expired Batches</span>
+                <span class="value">0</span>
+                <span class="sub">Zero waste to landfill</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Live Batch Expiry Overview</div>
+            <div class="card-sub">Batch-level life-cycle stages calculated from PostgreSQL / SQLite engine</div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Product / SKU</th>
+                        <th>Lot Batch Code</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                        <th>Days Remaining</th>
+                        <th>Lifecycle Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Fresh Tomatoes</b> (SKU-TOM-03)</td>
+                        <td>LOT-50A2EDD444A3</td>
+                        <td>25.0 kg</td>
+                        <td>2026-11-19</td>
+                        <td><b>2 days</b></td>
+                        <td><span class="pill pill-soon">Expiring Soon</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Artisan Bread Loaves</b> (SKU-BRD-01)</td>
+                        <td>LOT-996B6C932A8C</td>
+                        <td>30.0 units</td>
+                        <td>2026-11-18</td>
+                        <td><b>1 day</b></td>
+                        <td><span class="pill pill-today">Critical (&le;24h)</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Fresh Whole Milk</b> (SKU-MLK-04)</td>
+                        <td>LOT-20D0F52592D7</td>
+                        <td>40.0 liters</td>
+                        <td>2026-11-20</td>
+                        <td><b>3 days</b></td>
+                        <td><span class="pill pill-soon">Expiring Soon</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Natural Curd</b> (SKU-CRD-02)</td>
+                        <td>LOT-5AC615B17B7C</td>
+                        <td>12.0 liters</td>
+                        <td>2026-11-17</td>
+                        <td><b>0 days</b></td>
+                        <td><span class="pill pill-expired">Expires Today</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Basmati Rice</b> (SKU-RIC-05)</td>
+                        <td>LOT-1178AF90B231</td>
+                        <td>50.0 kg</td>
+                        <td>2027-03-15</td>
+                        <td><b>118 days</b></td>
+                        <td><span class="pill pill-fresh">Optimal / Safe</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Account Settings</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/settings</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item active"><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Account Settings / Profile</div>
+            <div class="header-title">Store & Organization Settings</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">Save Changes</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="two-col">
+            <div class="card">
+                <div class="card-title">User Profile Details</div>
+                <div class="card-sub">Manage personal credentials and administrative contact</div>
+                
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                    <div class="avatar" style="width:36px; height:36px; font-size:14px;">D</div>
+                    <div>
+                        <b style="font-size:11px;">Store Manager Admin</b><br/>
+                        <span style="font-size:9px; color:#059669; font-weight:600;">Authorized Business Profile</span>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label class="form-label">Full Name</label>
+                    <input class="form-input" value="Alex Henderson"/>
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label class="form-label">Email Address</label>
+                    <input class="form-input" value="store@demo.local"/>
+                </div>
+                <div class="form-group" style="margin-bottom:10px;">
+                    <label class="form-label">Phone Number</label>
+                    <input class="form-input" value="+1 (555) 234-5678"/>
+                </div>
+                <button class="btn btn-pri" style="width:100%;">Save Profile</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Supermarket Business Details</div>
+                <div class="card-sub">Location parameters used for proximity matching with NGOs</div>
+                
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label class="form-label">Organization Name</label>
+                    <input class="form-input" value="Demo Fresh Mart Ltd"/>
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label class="form-label">Pickup Address</label>
+                    <input class="form-input" value="100 Main Street, Warehouse Bay 4"/>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+                    <div class="form-group">
+                        <label class="form-label">Latitude</label>
+                        <input class="form-input" value="12.9716"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Longitude</label>
+                        <input class="form-input" value="77.5946"/>
+                    </div>
+                </div>
+                <button class="btn btn-pri" style="width:100%;">Update Store Details</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Security & Password</div>
+            <div class="card-sub">Keep your account secure with high-entropy credential hashing</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:8px; align-items:flex-end;">
+                <div class="form-group">
+                    <label class="form-label">Current Password</label>
+                    <input class="form-input" type="password" value="••••••••••••"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">New Password</label>
+                    <input class="form-input" type="password" placeholder="Min 6 characters"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input class="form-input" type="password" placeholder="Confirm new password"/>
+                </div>
+                <button class="btn btn-pri">Update Password</button>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Stock Movement</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/analytics</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item active"><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Analytics & Intelligence / Logs</div>
+            <div class="header-title">Stock Movement & Transaction History</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn">Filter Range</button>
+            <button class="btn btn-pri">Export Audit Report</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="two-col">
+            <div class="card">
+                <div class="card-title">Inventory by Category Breakdown</div>
+                <div class="card-sub">Stock distribution calculated from current database records</div>
+                
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9.5px;"><span>Vegetables</span><b>80 kg</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:85%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9.5px;"><span>Packaged Foods</span><b>50 units</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:55%; background:#3b82f6;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9.5px;"><span>Bakery</span><b>25 units</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:30%; background:#f59e0b;"></div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Recent Stock In / Stock Out Flow</div>
+                <div class="card-sub">Quantities recorded in live SQLite/PostgreSQL warehouse store</div>
+                
+                <div style="display:flex; justify-content:space-around; align-items:center; height:80px; background:#f8fafc; border-radius:6px; border:1px solid #e2e8f0; margin-top:4px;">
+                    <div style="text-align:center;">
+                        <span style="font-size:9px; color:#64748b;">Total Received</span>
+                        <div style="font-size:16px; font-weight:800; color:#059669;">+ 162.0 units</div>
+                    </div>
+                    <div style="width:1px; height:40px; background:#e2e8f0;"></div>
+                    <div style="text-align:center;">
+                        <span style="font-size:9px; color:#64748b;">Redistributed to NGOs</span>
+                        <div style="font-size:16px; font-weight:800; color:#2563eb;">- 70.0 kg/units</div>
+                    </div>
+                    <div style="width:1px; height:40px; background:#e2e8f0;"></div>
+                    <div style="text-align:center;">
+                        <span style="font-size:9px; color:#64748b;">Sold at Discount</span>
+                        <div style="font-size:16px; font-weight:800; color:#f59e0b;">- 35.0 units</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Auditable Inventory History</div>
+            <div class="card-sub">Complete stock modification event logs for compliance and reporting</div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>SKU / Product</th>
+                        <th>Action Type</th>
+                        <th>Quantity Change</th>
+                        <th>Details & Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12/11/2026, 5:48 PM</td>
+                        <td>SKU-TOM-03 (Tomatoes)</td>
+                        <td><span class="pill pill-green">Batch Created</span></td>
+                        <td><b>+ 25.0 kg</b></td>
+                        <td>Initial purchase entry from Green Valley</td>
+                    </tr>
+                    <tr>
+                        <td>12/11/2026, 5:47 PM</td>
+                        <td>SKU-BRD-01 (Bread Loaves)</td>
+                        <td><span class="pill pill-blue">Redistributed</span></td>
+                        <td><b>- 30.0 units</b></td>
+                        <td>Donation pickup completed by Demo Hope Kitchen</td>
+                    </tr>
+                    <tr>
+                        <td>12/11/2026, 5:38 PM</td>
+                        <td>SKU-MLK-04 (Milk)</td>
+                        <td><span class="pill pill-today">Sale Recorded</span></td>
+                        <td><b>- 5.0 liters</b></td>
+                        <td>End-of-day register sale adjustment</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Analytics Trends</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/analytics#trends</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item active"><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Analytics & Intelligence / Visualizations</div>
+            <div class="header-title">Visual Analytics & Trajectory Trends</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">Monthly Summary</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="two-col">
+            <div class="card">
+                <div class="card-title">Stock IN vs Stock OUT Trajectory</div>
+                <div class="card-sub">Monthly totals calculated from inventory history transactions</div>
+                
+                <div style="height:100px; display:flex; align-items:flex-end; gap:16px; padding:10px 0; border-bottom:1px solid #e2e8f0;">
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:14px; height:30px; background:#10b981; border-radius:2px;"></div>
+                        <span style="font-size:8px; color:#64748b;">Sep 26</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:14px; height:50px; background:#10b981; border-radius:2px;"></div>
+                        <span style="font-size:8px; color:#64748b;">Oct 26</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:14px; height:85px; background:#10b981; border-radius:2px;"></div>
+                        <span style="font-size:8px; color:#64748b;">Nov 26</span>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:center; gap:16px; margin-top:6px; font-size:9px;">
+                    <span><i style="display:inline-block; width:8px; height:8px; background:#10b981; border-radius:2px;"></i> Stock IN (Inbound)</span>
+                    <span><i style="display:inline-block; width:8px; height:8px; background:#2563eb; border-radius:2px;"></i> Stock OUT (Redistributed)</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Monthly Donation Overview</div>
+                <div class="card-sub">Surplus listings created by your store organization</div>
+                
+                <div style="height:100px; display:flex; align-items:flex-end; gap:16px; padding:10px 0; border-bottom:1px solid #e2e8f0;">
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:18px; height:20px; background:#059669; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">Aug 26</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:18px; height:45px; background:#059669; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">Sep 26</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:18px; height:70px; background:#059669; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">Oct 26</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:18px; height:92px; background:#059669; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">Nov 26</span>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top:6px; font-size:9px; color:#059669; font-weight:600;">
+                    +34% Growth in monthly surplus rescue volume
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Donation and Reservation Trends by Status</div>
+            <div class="card-sub">Monthly donation requests grouped by fulfillment status</div>
+            
+            <div style="display:flex; justify-content:space-around; align-items:center; padding:10px 0;">
+                <div style="text-align:center;">
+                    <span class="pill pill-green">Collected (100%)</span>
+                    <div style="font-size:16px; font-weight:800; color:#0f172a; margin-top:4px;">14 Pickups</div>
+                </div>
+                <div style="text-align:center;">
+                    <span class="pill pill-blue">Confirmed Scheduled</span>
+                    <div style="font-size:16px; font-weight:800; color:#0f172a; margin-top:4px;">2 Pickups</div>
+                </div>
+                <div style="text-align:center;">
+                    <span class="pill pill-today">Pending Review</span>
+                    <div style="font-size:16px; font-weight:800; color:#0f172a; margin-top:4px;">2 Requests</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — NGO Partners</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/partners</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item active"><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Community / Redistribution Network</div>
+            <div class="header-title">NGO & Community Partners</div>
+        </div>
+        <div class="header-tools">
+            <input style="border:1px solid #cbd5e1; border-radius:5px; padding:4px 8px; font-size:10px; width:160px;" placeholder="Search partner organization..."/>
+            <button class="btn btn-pri">+ Invite NGO</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div style="display:flex; gap:10px;">
+                        <div class="avatar" style="background:#059669; width:32px; height:32px; font-size:13px;">H</div>
+                        <div>
+                            <b style="font-size:12px; color:#0f172a;">Demo Hope Kitchen</b>
+                            <div style="font-size:9.5px; color:#64748b;">Registered Community Kitchen & Shelter</div>
+                        </div>
+                    </div>
+                    <span class="pill pill-fresh">Verified NGO</span>
+                </div>
+                
+                <div style="margin:10px 0; font-size:9.5px; color:#475569; display:flex; flex-direction:column; gap:3px;">
+                    <div>📍 12 Park Road, Central District (<b>1.4 km away</b>)</div>
+                    <div>✉️ hope@demo.local · 📞 +1 (555) 345-6789</div>
+                    <div>🚚 Collection Capacity: <b>40.0 kg per pickup</b></div>
+                </div>
+                
+                <div style="border-top:1px solid #f1f5f9; padding-top:6px;">
+                    <span style="font-size:8.5px; color:#64748b; font-weight:600;">Preferred Food Categories:</span>
+                    <div style="display:flex; gap:4px; margin-top:3px;">
+                        <span class="pill pill-gray">Cooked Meals</span>
+                        <span class="pill pill-gray">Bakery</span>
+                        <span class="pill pill-gray">Fruits & Vegetables</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div style="display:flex; gap:10px;">
+                        <div class="avatar" style="background:#2563eb; width:32px; height:32px; font-size:13px;">S</div>
+                        <div>
+                            <b style="font-size:12px; color:#0f172a;">Demo Seva Trust</b>
+                            <div style="font-size:9.5px; color:#64748b;">Regional Food Bank & Homeless Support</div>
+                        </div>
+                    </div>
+                    <span class="pill pill-fresh">Verified NGO</span>
+                </div>
+                
+                <div style="margin:10px 0; font-size:9.5px; color:#475569; display:flex; flex-direction:column; gap:3px;">
+                    <div>📍 55 Lake View Boulevard (<b>8.2 km away</b>)</div>
+                    <div>✉️ seva@demo.local · 📞 +1 (555) 456-7890</div>
+                    <div>🚚 Collection Capacity: <b>15.0 kg per pickup</b></div>
+                </div>
+                
+                <div style="border-top:1px solid #f1f5f9; padding-top:6px;">
+                    <span style="font-size:8.5px; color:#64748b; font-weight:600;">Preferred Food Categories:</span>
+                    <div style="display:flex; gap:4px; margin-top:3px;">
+                        <span class="pill pill-gray">Dairy & Eggs</span>
+                        <span class="pill pill-gray">Grains & Staples</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div style="display:flex; gap:10px;">
+                        <div class="avatar" style="background:#d97706; width:32px; height:32px; font-size:13px;">G</div>
+                        <div>
+                            <b style="font-size:12px; color:#0f172a;">Demo Green Hands</b>
+                            <div style="font-size:9.5px; color:#64748b;">Youth Relief & Sustainability Alliance</div>
+                        </div>
+                    </div>
+                    <span class="pill pill-fresh">Verified NGO</span>
+                </div>
+                
+                <div style="margin:10px 0; font-size:9.5px; color:#475569; display:flex; flex-direction:column; gap:3px;">
+                    <div>📍 9 Hill Street, North Hills (<b>5.6 km away</b>)</div>
+                    <div>✉️ green@demo.local · 📞 +1 (555) 567-8901</div>
+                    <div>🚚 Collection Capacity: <b>On-demand collection</b></div>
+                </div>
+                
+                <div style="border-top:1px solid #f1f5f9; padding-top:6px;">
+                    <span style="font-size:8.5px; color:#64748b; font-weight:600;">Preferred Food Categories:</span>
+                    <div style="display:flex; gap:4px; margin-top:3px;">
+                        <span class="pill pill-gray">All Perishables</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" style="border:2px dashed #cbd5e1; background:#f8fafc; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div style="font-size:24px; color:#94a3b8; margin-bottom:4px;">➕</div>
+                <b style="font-size:11px; color:#475569;">Register New Community Partner</b>
+                <p style="font-size:9px; color:#64748b; margin-top:2px;">Expand your local redistribution network</p>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Analytics Summary</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/analytics/summary</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item active"><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Analytics & Intelligence / Summary</div>
+            <div class="header-title">Executive Sustainability & Impact Report</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">📥 Download PDF Report</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="label">Inventory Products</span>
+                <span class="value">8</span>
+                <span class="sub">Current business records</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Current Stock Volume</span>
+                <span class="value" style="color:#059669;">162 units</span>
+                <span class="sub">Units across listed products</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Stock Transactions</span>
+                <span class="value">10</span>
+                <span class="sub">Recorded from backend API</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Active Donation Listings</span>
+                <span class="value" style="color:#2563eb;">6</span>
+                <span class="sub">Live on NGO marketplace</span>
+            </div>
+        </div>
+        
+        <div class="two-col">
+            <div class="card">
+                <div class="card-title">Inventory Distribution by Category</div>
+                <div class="card-sub">Current quantities retrieved from your authorized records</div>
+                
+                <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9px;"><span>Vegetables</span><b>80 kg</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:85%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9px;"><span>Packaged Foods</span><b>50 u</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:55%; background:#3b82f6;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9px;"><span>Fruits</span><b>15 kg</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:25%; background:#f59e0b;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; justify-content:space-between; font-size:9px;"><span>Other Staples</span><b>10 u</b></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:18%; background:#64748b;"></div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Monthly Inventory Trends</div>
+                <div class="card-sub">Product additions and stock movement by month</div>
+                
+                <div style="height:90px; display:flex; align-items:flex-end; gap:20px; padding:10px 0; border-bottom:1px solid #e2e8f0;">
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:16px; height:30px; background:#10b981; border-radius:2px;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-08</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:16px; height:60px; background:#10b981; border-radius:2px;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-09</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:16px; height:85px; background:#10b981; border-radius:2px;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-11</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Donations & Reservations</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/donations</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item active"><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Redistribution / Coordination</div>
+            <div class="header-title">Donations & Reservations Hub</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">+ Publish Surplus Listing</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="label">Total Reservations</span>
+                <span class="value">16</span>
+                <span class="sub">Lifetime store records</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Awaiting Store Action</span>
+                <span class="value" style="color:#f59e0b;">2</span>
+                <span class="sub">Pending review</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Confirmed Pickups</span>
+                <span class="value" style="color:#2563eb;">2</span>
+                <span class="sub">Pickup window active</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Collected & Completed</span>
+                <span class="value" style="color:#059669;">12</span>
+                <span class="sub">Successfully verified</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Live Reservation Requests Feed</div>
+            <div class="card-sub">Status of all donation requests retrieved from PostgreSQL database</div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Offered Food</th>
+                        <th>Requesting NGO</th>
+                        <th>Quantity</th>
+                        <th>Pickup Window</th>
+                        <th>Request Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Fresh Farm Tomatoes</b></td>
+                        <td>Demo Hope Kitchen</td>
+                        <td>20.0 kg</td>
+                        <td>Today, 2:30 PM</td>
+                        <td><span class="pill pill-today">Pending</span></td>
+                        <td>
+                            <button class="btn btn-pri">Accept</button>
+                            <button class="btn btn-danger">Decline</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Artisan Sourdough</b></td>
+                        <td>Demo Seva Trust</td>
+                        <td>30.0 units</td>
+                        <td>Tomorrow, 10:00 AM</td>
+                        <td><span class="pill pill-fresh">Confirmed</span></td>
+                        <td><button class="btn btn-pri">Mark Picked Up</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Redistribution Workflow Architecture</div>
+            <div class="card-sub">Quantities are reserved transactionally; collected pickups automatically deduct warehouse stock</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:8px 14px; border-radius:6px; font-size:9.5px; border:1px solid #e2e8f0; margin-top:4px;">
+                <span>1. Supermarket Lists Surplus</span> ➔
+                <span>2. AI Matches Best NGO</span> ➔
+                <span>3. NGO Submits Request</span> ➔
+                <span>4. Store Confirms Window</span> ➔
+                <span>5. Driver Pickup & CO₂e Audit</span>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Surplus Food Listings</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/surplus</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item active"><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Marketplace / Live Listings</div>
+            <div class="header-title">Surplus Food Listings</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">+ List Surplus Food</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="stats-row" style="margin-bottom:4px;">
+            <div class="stat-card">
+                <span class="label">Available Listings</span>
+                <span class="value" style="color:#059669;">6</span>
+                <span class="sub">Current database records</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Total Available Weight</span>
+                <span class="value">115 kg</span>
+                <span class="sub">Remaining donation stock</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Food Categories</span>
+                <span class="value">4</span>
+                <span class="sub">Produce, Bakery, Dairy, Staples</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Marketplace Status</span>
+                <span class="value" style="color:#059669;">Live</span>
+                <span class="sub">Connected to FoodWise API</span>
+            </div>
+        </div>
+        
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
+            <div class="card" style="padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="pill pill-fresh">Vegetables</span>
+                    <span style="font-size:9px; color:#64748b;">Expires in 2d</span>
+                </div>
+                <div style="font-size:22px; text-align:center; margin:6px 0;">🍅</div>
+                <b style="font-size:11px;">Farm Tomatoes</b>
+                <div style="font-size:9px; color:#64748b; margin-bottom:6px;">Available: 25.0 kg · Cold Storage</div>
+                <button class="btn btn-pri" style="width:100%; font-size:9px;">View Reservations (1)</button>
+            </div>
+            
+            <div class="card" style="padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="pill pill-blue">Bakery</span>
+                    <span style="font-size:9px; color:#64748b;">Expires in 1d</span>
+                </div>
+                <div style="font-size:22px; text-align:center; margin:6px 0;">🍞</div>
+                <b style="font-size:11px;">Sourdough Bread</b>
+                <div style="font-size:9px; color:#64748b; margin-bottom:6px;">Available: 30.0 units · Bakery Bay</div>
+                <button class="btn btn-pri" style="width:100%; font-size:9px;">View Reservations (1)</button>
+            </div>
+            
+            <div class="card" style="padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="pill pill-today">Dairy</span>
+                    <span style="font-size:9px; color:#64748b;">Expires in 3d</span>
+                </div>
+                <div style="font-size:22px; text-align:center; margin:6px 0;">🥛</div>
+                <b style="font-size:11px;">Whole Cow Milk</b>
+                <div style="font-size:9px; color:#64748b; margin-bottom:6px;">Available: 40.0 liters · Chiller</div>
+                <button class="btn btn-pri" style="width:100%; font-size:9px;">Best NGO Matches</button>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — AI Waste Prediction</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/predictions</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item active"><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Machine Intelligence / Forecasting</div>
+            <div class="header-title">AI Waste Prediction & Risk Radar</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">Recalculate Predictions</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="label">Urgent Batches</span>
+                <span class="value" style="color:#ef4444;">7</span>
+                <span class="sub">Immediate intervention required</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Expiring Soon</span>
+                <span class="value" style="color:#f59e0b;">2</span>
+                <span class="sub">Within demand velocity threshold</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Batches Analyzed</span>
+                <span class="value">8</span>
+                <span class="sub">Full database coverage</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Forecasting Engine</span>
+                <span class="value" style="color:#059669; font-size:14px;">14-Day MA</span>
+                <span class="sub">Moving average sales heuristic</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">At-Risk Inventory Batches</div>
+            <div class="card-sub">Algorithmic risk score computed by comparing shelf life vs daily demand velocity</div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Product / SKU</th>
+                        <th>Current Quantity</th>
+                        <th>Est. Daily Demand</th>
+                        <th>Projected Waste Date</th>
+                        <th>Risk Score</th>
+                        <th>Recommended Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Fresh Curd</b> (SKU-CRD-02)</td>
+                        <td>12.0 liters</td>
+                        <td>1.2 liters/day</td>
+                        <td>Today</td>
+                        <td><span class="pill pill-expired">99 · Critical</span></td>
+                        <td><button class="btn btn-danger">Dispose / Compost</button></td>
+                    </tr>
+                    <tr>
+                        <td><b>Organic Farm Tomatoes</b></td>
+                        <td>25.0 kg</td>
+                        <td>3.5 kg/day</td>
+                        <td>In 2 days</td>
+                        <td><span class="pill pill-today">94 · High</span></td>
+                        <td><button class="btn btn-pri">List for NGO Pickup</button></td>
+                    </tr>
+                    <tr>
+                        <td><b>Artisan Bread Loaves</b></td>
+                        <td>30.0 units</td>
+                        <td>5.0 units/day</td>
+                        <td>Tomorrow</td>
+                        <td><span class="pill pill-today">88 · High</span></td>
+                        <td><button class="btn btn-pri">List for NGO Pickup</button></td>
+                    </tr>
+                    <tr>
+                        <td><b>Pasteurized Milk</b></td>
+                        <td>40.0 liters</td>
+                        <td>6.0 liters/day</td>
+                        <td>In 3 days</td>
+                        <td><span class="pill pill-soon">76 · Moderate</span></td>
+                        <td><button class="btn">Discount Price 30%</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Volunteer Management</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/volunteers</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item active"><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Logistics / Dispatch</div>
+            <div class="header-title">Volunteer & Pickup Logistics Management</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn">Assign Task</button>
+            <button class="btn btn-pri">+ Add Driver</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="label">Active Volunteers / Drivers</span>
+                <span class="value">4</span>
+                <span class="sub">Registered with your network</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Open Logistics Tasks</span>
+                <span class="value" style="color:#f59e0b;">2</span>
+                <span class="sub">Pending collection dispatch</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Completed Pickups</span>
+                <span class="value" style="color:#059669;">14</span>
+                <span class="sub">Logged in database audit</span>
+            </div>
+            <div class="stat-card">
+                <span class="label">Inventory Permissions</span>
+                <span class="value">4</span>
+                <span class="sub">Authorized handlers</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Assigned Volunteer Tasks</div>
+            <div class="card-sub">Active tasks and route delivery progress retrieved from backend</div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Pickup Task</th>
+                        <th>Assigned Volunteer</th>
+                        <th>Target Due Date</th>
+                        <th>Status</th>
+                        <th>Verification</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Supply 20 kg Tomatoes to Hope Kitchen</b></td>
+                        <td>Marcus Vance</td>
+                        <td>Today, 2:30 PM</td>
+                        <td><span class="pill pill-today">In Transit</span></td>
+                        <td><button class="btn btn-pri">Confirm Delivery</button></td>
+                    </tr>
+                    <tr>
+                        <td><b>Supply 30 units Bread to Seva Trust</b></td>
+                        <td>Elena Rostova</td>
+                        <td>Tomorrow, 10:00 AM</td>
+                        <td><span class="pill pill-blue">Scheduled</span></td>
+                        <td><button class="btn">View Route</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Organization Volunteers Directory</div>
+            <div class="card-sub">Profiles assigned to the signed-in organization account</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Volunteer Name</th>
+                        <th>Contact Email</th>
+                        <th>Specialized Skills</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Marcus Vance</b></td>
+                        <td>marcus.v@demo.local</td>
+                        <td>Cold Chain Handling, Van Driver</td>
+                        <td><span class="pill pill-fresh">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Elena Rostova</b></td>
+                        <td>elena.r@demo.local</td>
+                        <td>Food Safety Certified</td>
+                        <td><span class="pill pill-fresh">Active</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Current Inventory Records</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/dashboard#inventory-table</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item active"><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Dashboard / Detailed View</div>
+            <div class="header-title">Current Warehouse Inventory Records</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">Refresh Records</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="card">
+            <div class="card-title">Current Inventory Records</div>
+            <div class="card-sub">Live records loaded directly from database</div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Item / SKU</th>
+                        <th>Category</th>
+                        <th>Available Stock</th>
+                        <th>Expiry Date</th>
+                        <th>Storage Location</th>
+                        <th>Risk Assessment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Organic Tomatoes</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-TOM-03</span></td>
+                        <td>Vegetables</td>
+                        <td>25.0 kg</td>
+                        <td>2026-11-19</td>
+                        <td>Cold Room A</td>
+                        <td><span class="pill pill-today">High · 94</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Fresh Bread Loaves</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-BRD-01</span></td>
+                        <td>Bakery</td>
+                        <td>30.0 units</td>
+                        <td>2026-11-18</td>
+                        <td>Ambient Rack 2</td>
+                        <td><span class="pill pill-today">High · 88</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Whole Milk Cartons</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-MLK-04</span></td>
+                        <td>Dairy</td>
+                        <td>40.0 liters</td>
+                        <td>2026-11-20</td>
+                        <td>Chiller B</td>
+                        <td><span class="pill pill-soon">Med · 76</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Fresh Natural Curd</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-CRD-02</span></td>
+                        <td>Dairy</td>
+                        <td>12.0 liters</td>
+                        <td>2026-11-17</td>
+                        <td>Chiller A</td>
+                        <td><span class="pill pill-expired">Critical · 99</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Basmati White Rice</b><br/><span style="font-size:8.5px; color:#64748b;">SKU-RIC-05</span></td>
+                        <td>Grains</td>
+                        <td>50.0 kg</td>
+                        <td>2027-03-15</td>
+                        <td>Dry Room 1</td>
+                        <td><span class="pill pill-fresh">Low · 12</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — Redistribution Trajectory</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/dashboard#redistribution-trends</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item active"><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item "><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Dashboard / Metrics & Visuals</div>
+            <div class="header-title">Redistribution Volume & Partner Overview</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">Export Summary</button>
+        </div>
+    </div>
+    <div class="main-body">
+        <div class="two-col">
+            <div class="card">
+                <div class="card-title">Monthly Redistribution Overview</div>
+                <div class="card-sub">Surplus listings created by your store organization</div>
+                
+                <div style="height:110px; display:flex; align-items:flex-end; gap:20px; padding:10px 0; border-bottom:1px solid #e2e8f0;">
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:20px; height:25px; background:#059669; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-08</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:20px; height:50px; background:#059669; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-09</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:20px; height:75px; background:#059669; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-10</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:20px; height:98px; background:#059669; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-11</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Volunteer Activity Overview</div>
+                <div class="card-sub">Volunteer profiles and logistics tasks recorded by your store</div>
+                
+                <div style="height:110px; display:flex; align-items:flex-end; gap:20px; padding:10px 0; border-bottom:1px solid #e2e8f0;">
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:20px; height:20px; background:#2563eb; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-08</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:20px; height:45px; background:#2563eb; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-09</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:20px; height:70px; background:#2563eb; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-10</span>
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                        <div style="width:20px; height:90px; background:#2563eb; border-radius:3px 3px 0 0;"></div>
+                        <span style="font-size:8px; color:#64748b;">2026-11</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="page">
+            <div class="browser-window">
+                <div class="title-bar">
+                    <div class="tab">
+                        <span>🌿</span>
+                        <span>FoodWise AI — AI NGO Matching</span>
+                        <span style="color:#94a3b8; margin-left:4px;">×</span>
+                    </div>
+                    <div class="window-controls">
+                        <span class="win-btn win-min"></span>
+                        <span class="win-btn win-max"></span>
+                        <span class="win-btn win-close"></span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="nav-arrows">
+                        <span>&larr;</span>
+                        <span>&rarr;</span>
+                        <span>&#x21bb;</span>
+                    </div>
+                    <div class="address-bar">
+                        <span class="lock-icon">&#128274;</span>
+                        <span>http://localhost:8000/donations#ai-matching</span>
+                    </div>
+                    <div class="toolbar-actions">
+                        <span>&#9734;</span>
+                        <span>&#9881;</span>
+                        <div class="avatar">D</div>
+                    </div>
+                </div>
+                <div class="viewport">
+                    
+            
+        <div class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🌿</div>
+                <div>
+                    <div class="brand-name">FoodWise AI</div>
+                    <div class="brand-sub">Surplus & Waste Optimization</div>
+                </div>
+            </div>
+            
+            <div class="nav-group-title">Operations</div>
+            <a class="nav-item "><span>📊</span> Main Dashboard</a>
+            <a class="nav-item "><span>📦</span> Food Inventory</a>
+            <a class="nav-item "><span>📷</span> Barcode / SKU Scan</a>
+            <a class="nav-item "><span>⏳</span> Expiry Tracking</a>
+            
+            <div class="nav-group-title">Redistribution</div>
+            <a class="nav-item active"><span>🤝</span> Donations & Surplus</a>
+            <a class="nav-item "><span>🧺</span> Surplus Marketplace</a>
+            <a class="nav-item "><span>🏢</span> NGO Partners</a>
+            
+            <div class="nav-group-title">Intelligence & System</div>
+            <a class="nav-item "><span>🧠</span> AI Waste Prediction</a>
+            <a class="nav-item "><span>🌱</span> Impact & Analytics</a>
+            <a class="nav-item "><span>⚙️</span> Store Settings</a>
+            
+            <div class="user-panel">
+                <div class="avatar">D</div>
+                <div>
+                    <div class="name">Demo Fresh Mart</div>
+                    <div class="role">Supermarket</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="content-area">
+                
+    <div class="top-header">
+        <div>
+            <div class="header-crumb">Redistribution / AI Algorithm</div>
+            <div class="header-title">Intelligent NGO Matching Engine</div>
+        </div>
+        <div class="header-tools">
+            <button class="btn btn-pri">Close</button>
+        </div>
+    </div>
+    <div class="main-body" style="position:relative;">
+        <div class="card" style="filter:blur(1px); opacity:0.6;">
+            <div class="card-title">Background Donations Workspace</div>
+            <div style="height:200px;"></div>
+        </div>
+        
+        <div class="modal-overlay">
+            <div class="modal-box" style="width:480px;">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-title">Best NGO Matches for Fresh Farm Tomatoes</div>
+                        <div style="font-size:9px; color:#64748b; margin-top:2px;">Scoring: 35% category fit, 25% quantity fit, 25% proximity, 15% urgency</div>
+                    </div>
+                    <span style="cursor:pointer; font-size:14px; color:#94a3b8;">✕</span>
+                </div>
+                
+                <div style="display:flex; flex-direction:column; gap:10px; margin:10px 0;">
+                    <div style="border:1px solid #d1fae5; background:#f0fdf4; border-radius:8px; padding:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <b style="font-size:11.5px; color:#065f46;">1. Demo Hope Kitchen</b>
+                                <span style="font-size:9px; color:#047857;"> · 1.4 km away</span>
+                            </div>
+                            <span class="pill pill-fresh" style="font-size:10px;">Score: 95 / 100</span>
+                        </div>
+                        <div class="progress-bar" style="margin:5px 0 6px;"><div class="progress-fill" style="width:95%;"></div></div>
+                        <ul style="font-size:9px; color:#047857; margin-left:16px; line-height:1.3;">
+                            <li>Exact match: Needs Fruits & Vegetables</li>
+                            <li>Capacity: Can collect 40.0 kg (Requested 20.0 kg)</li>
+                            <li>Close proximity: 1.4 km distance ensures food remains fresh</li>
+                        </ul>
+                        <div style="text-align:right; margin-top:6px;">
+                            <button class="btn btn-pri">Assign & Send Offer</button>
+                        </div>
+                    </div>
+                    
+                    <div style="border:1px solid #e2e8f0; background:#f8fafc; border-radius:8px; padding:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <b style="font-size:11.5px; color:#0f172a;">2. Demo Seva Trust</b>
+                                <span style="font-size:9px; color:#64748b;"> · 8.2 km away</span>
+                            </div>
+                            <span class="pill pill-blue" style="font-size:10px;">Score: 78 / 100</span>
+                        </div>
+                        <div class="progress-bar" style="margin:5px 0 6px;"><div class="progress-fill" style="width:78%; background:#3b82f6;"></div></div>
+                        <ul style="font-size:9px; color:#64748b; margin-left:16px; line-height:1.3;">
+                            <li>Partial category match: Accepts all perishables</li>
+                            <li>Capacity: 15.0 kg maximum collection capability</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="display:flex; justify-content:flex-end; gap:8px;">
+                    <button class="btn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            </div>
+            
+                </div>
+            </div>
+        </div>
+        
+</body>
+</html>

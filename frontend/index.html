@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FoodWise AI</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<style>
+:root{--g:#10b981;--gd:#059669;--navy:#0f172a;--bg:#f8fafc;--card:#fff;--line:#e2e8f0;--tx:#0f172a;--mu:#64748b;--red:#ef4444;--org:#f97316;--amb:#f59e0b;--blu:#3b82f6}
+*{box-sizing:border-box}body{margin:0;font:15px/1.45 "Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--tx)}
+button,input,select{font:inherit}h1,h2,h3{margin:0}
+.auth{min-height:100vh;display:grid;place-items:center;background:#6b7280;padding:16px}
+.acard{background:#fff;border-radius:22px;padding:32px;width:100%;max-width:520px;box-shadow:0 20px 50px #0004}
+.logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--g),var(--gd));display:grid;place-items:center;margin:0 auto 12px;color:#fff;font-size:26px}
+.acard h1{text-align:center;font-size:26px}.acard p.sub{text-align:center;color:var(--mu);margin:6px 0 18px}
+.tabs{display:flex;background:#f1f5f9;border-radius:12px;padding:4px;margin-bottom:14px}.tabs button{flex:1;border:0;background:none;padding:8px;border-radius:9px;font-weight:600;color:var(--mu);cursor:pointer}.tabs .on{background:#fff;color:var(--gd);box-shadow:0 1px 4px #0002}
+label{display:block;font-size:13px;font-weight:600;color:#334155}label input,label select{display:block;width:100%;margin-top:5px;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--g);outline-offset:1px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}.wide{grid-column:1/-1}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;font-weight:600;cursor:pointer;color:#334155}.btn:hover{background:#f1f5f9}
+.pri{background:var(--g);border-color:var(--g);color:#fff}.pri:hover{background:var(--gd)}.btn:disabled{opacity:.6;cursor:wait}.full{width:100%;padding:12px;margin-top:6px}
+.sm{padding:5px 10px;font-size:13px}.danger{color:#b91c1c}
+.link{background:none;border:0;color:var(--gd);font-weight:700;text-decoration:underline;cursor:pointer}
+.err{color:#b91c1c;font-size:13px;margin:6px 0}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{background:var(--navy);color:#cbd5e1;padding:18px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:22px}.brand .logo{margin:0;width:42px;height:42px;font-size:20px}.brand b{color:#fff;font-size:18px;display:block}.brand small{font-size:12px}
+.nav{border:0;background:none;color:inherit;width:100%;text-align:left;padding:11px 12px;border-radius:10px;cursor:pointer;display:flex;justify-content:space-between;margin-bottom:3px}
+.nav:hover{background:#1e293b}.nav.on{background:#10b98120;color:var(--g);font-weight:700}
+.me{margin-top:auto;border-top:1px solid #1e293b;padding-top:14px;color:#fff}.me small{display:block;color:var(--g)}
+.main{min-width:0}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border-bottom:1px solid var(--line);padding:14px 26px;position:sticky;top:0;z-index:5;flex-wrap:wrap}
+.top small{color:var(--mu)}.pad{padding:24px 26px;display:grid;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.card h3{font-size:16px}.card p.d{color:var(--mu);margin:2px 0 12px;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}.stat .n{font-size:32px;font-weight:800;margin-top:4px}.stat small{color:var(--mu)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700}
+.p-fresh{background:#d1fae5;color:#047857}.p-soon{background:#fef3c7;color:#b45309}.p-today{background:#ffedd5;color:#c2410c}.p-expired{background:#fee2e2;color:#b91c1c}
+.p-pending{background:#e0e7ff;color:#4338ca}.p-accepted{background:#dbeafe;color:#1d4ed8}.p-picked_up{background:#d1fae5;color:#047857}.p-rejected,.p-expired2{background:#f1f5f9;color:#475569}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:12px;color:var(--mu)}
+.row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;align-items:center}.bar{height:8px;background:#f1f5f9;border-radius:9px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--g)}
+.donut{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;flex:none}.donut b{background:#fff;width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:22px}
+.leg{display:grid;gap:6px}.leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}
+.alert{border-left:4px solid var(--red);background:#fffafa;padding:10px 14px;border-radius:10px;margin-bottom:8px}.alert.today{border-color:var(--org)}.alert.soon{border-color:var(--amb)}
+.ov{position:fixed;inset:0;background:#0f172a99;display:grid;place-items:center;padding:16px;z-index:20}.modal{background:#fff;border-radius:18px;padding:24px;width:100%;max-width:560px;max-height:90vh;overflow:auto}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;z-index:30;max-width:340px}.toast.bad{background:#b91c1c}
+.empty{text-align:center;color:var(--mu);padding:26px}.why{color:var(--mu);font-size:13px;margin:6px 0 0;padding-left:18px}
+.menu{display:none}
+@media(max-width:820px){.app{grid-template-columns:1fr}.side{position:fixed;left:0;top:0;z-index:15;width:250px;transform:translateX(-100%);transition:transform .2s}.side.open{transform:none}.menu{display:inline-block}.pad{padding:16px}.top{padding:12px 16px}.grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body><div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useCallback}=React;
+let TOKEN=localStorage.getItem("fw_token");
+async function api(path,opt={}){
+  const r=await fetch("/api"+path,{method:opt.method||(opt.body?"POST":"GET"),headers:{"Content-Type":"application/json",...(TOKEN?{Authorization:"Bearer "+TOKEN}:{})},body:opt.body?JSON.stringify(opt.body):undefined});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok){ if(r.status===401&&TOKEN){localStorage.removeItem("fw_token");location.reload();}
+    const m=Array.isArray(d.detail)?d.detail.map(x=>(x.loc||[]).slice(-1)+": "+x.msg).join("; "):d.detail; throw new Error(m||"Request failed");}
+  return d;}
+function useLoad(path,deps=[]){const[d,setD]=useState(null);const[e,setE]=useState("");
+  const go=useCallback(()=>{api(path).then(x=>{setD(x);setE("")}).catch(x=>setE(x.message))},[path]);
+  useEffect(go,[go,...deps]);return[d,go,e];}
+const fmt=s=>s?new Date(s).toLocaleString([], {dateStyle:"medium",timeStyle:"short"}):"—";
+const Pill=({s,t})=><span className={"pill p-"+s}>{t||s.replace("_"," ")}</span>;
+const statusText=p=>p.status==="expired"?`Expired (${-p.days_left}d ago)`:p.status==="today"?"Expires today":`${p.days_left}d left`;
+const Empty=({t})=><div className="empty">{t}</div>;
+const Load=({d,e})=>e?<div className="card err">{e}</div>:!d?<div className="card empty">Loading…</div>:null;
+
+function FormModal({title,fields,onSubmit,onClose,submit="Save"}){
+  const[v,setV]=useState(Object.fromEntries(fields.map(f=>[f.k,f.def??""])));const[er,setEr]=useState("");const[busy,setBusy]=useState(false);
+  const go=async e=>{e.preventDefault();setBusy(true);setEr("");try{await onSubmit(v)}catch(x){setEr(x.message);setBusy(false)}};
+  return <div className="ov" onClick={onClose}><form className="modal" onClick={e=>e.stopPropagation()} onSubmit={go}>
+    <h3>{title}</h3><div className="grid">{fields.map(f=><label key={f.k} className={f.wide?"wide":""}>{f.label}
+      {f.opts?<select value={v[f.k]} onChange={e=>setV({...v,[f.k]:e.target.value})}>{f.opts.map(o=><option key={o}>{o}</option>)}</select>
+      :<input type={f.type||"text"} required={f.req} step="any" min={f.min} placeholder={f.ph} value={v[f.k]} onChange={e=>setV({...v,[f.k]:e.target.value})}/>}</label>)}</div>
+    {er&&<p className="err">{er}</p>}<div className="row"><button type="button" className="btn" onClick={onClose}>Cancel</button><button className="btn pri" disabled={busy}>{submit}</button></div></form></div>;}
+
+function Auth({onAuth,toast}){
+  const[mode,setMode]=useState("login");const[role,setRole]=useState("supermarket");const[cats,setCats]=useState([]);
+  const[f,setF]=useState({name:"",contact:"",phone:"",email:"",address:"",password:"",confirm:"",lat:"",lng:"",capacity:"",needs:[]});
+  const[er,setEr]=useState("");const[busy,setBusy]=useState(false);
+  useEffect(()=>{api("/categories").catch(()=>[]).then(setCats)},[]);
+  const set=k=>e=>setF({...f,[k]:e.target.value});
+  const go=async e=>{e.preventDefault();setEr("");
+    if(mode==="register"&&f.password!==f.confirm)return setEr("Passwords don't match.");
+    setBusy(true);try{
+      const body=mode==="login"?{email:f.email,password:f.password}:{role,name:f.name,contact:f.contact,phone:f.phone,email:f.email,address:f.address,password:f.password,
+        lat:f.lat===""?null:+f.lat,lng:f.lng===""?null:+f.lng,needs:f.needs.join(","),capacity:f.capacity===""?null:+f.capacity};
+      const d=await api("/auth/"+mode,{body});TOKEN=d.token;localStorage.setItem("fw_token",d.token);onAuth(d.user);
+    }catch(x){setEr(x.message)}setBusy(false)};
+  const isN=role==="ngo";
+  return <div className="auth"><form className="acard" onSubmit={go}>
+    <div className="logo">🌿</div><h1>{mode==="login"?"FoodWise AI":isN?"Register NGO":"Register Supermarket"}</h1>
+    <p className="sub">{mode==="login"?"Sign in to manage inventory, surplus and donations":"Create an account to start redistributing surplus food"}</p>
+    {mode==="register"&&<div className="tabs"><button type="button" className={role==="supermarket"?"on":""} onClick={()=>setRole("supermarket")}>Supermarket</button><button type="button" className={isN?"on":""} onClick={()=>setRole("ngo")}>NGO / Charity</button></div>}
+    <div className="grid">
+      {mode==="register"&&<>
+        <label className="wide">{isN?"Organisation name":"Supermarket name"} *<input required value={f.name} onChange={set("name")}/></label>
+        <label>Contact person *<input required value={f.contact} onChange={set("contact")}/></label>
+        <label>Phone *<input required value={f.phone} onChange={set("phone")}/></label></>}
+      <label className="wide">Email *<input type="email" required value={f.email} onChange={set("email")}/></label>
+      {mode==="register"&&<label className="wide">Address *<input required value={f.address} onChange={set("address")}/></label>}
+      <label>Password *<input type="password" required minLength={6} placeholder="Min 6 characters" value={f.password} onChange={set("password")}/></label>
+      {mode==="register"&&<label>Confirm password *<input type="password" required value={f.confirm} onChange={set("confirm")}/></label>}
+      {mode==="register"&&<><label>Latitude (for distance matching)<input type="number" step="any" value={f.lat} onChange={set("lat")}/></label>
+        <label>Longitude<input type="number" step="any" value={f.lng} onChange={set("lng")}/></label></>}
+      {mode==="register"&&isN&&<><label className="wide">Max quantity you can collect per pickup<input type="number" step="any" min="0" value={f.capacity} onChange={set("capacity")}/></label>
+        <div className="wide"><b style={{fontSize:13}}>Food you need</b><div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:6}}>{cats.map(c=><label key={c} style={{fontWeight:500}}><input type="checkbox" style={{display:"inline",width:"auto",marginRight:5}} checked={f.needs.includes(c)} onChange={e=>setF({...f,needs:e.target.checked?[...f.needs,c]:f.needs.filter(x=>x!==c)})}/>{c}</label>)}</div></div></>}
+    </div>
+    {er&&<p className="err">{er}</p>}
+    <button className="btn pri full" disabled={busy}>{busy?"Please wait…":mode==="login"?"Sign in":"Create account"}</button>
+    <p className="sub" style={{marginTop:14}}>{mode==="login"?"No account yet? ":"Already registered? "}<button type="button" className="link" onClick={()=>{setMode(mode==="login"?"register":"login");setEr("")}}>{mode==="login"?"Register":"Back to sign in"}</button></p>
+  </form></div>;}
+
+function Donut({counts}){
+  const items=[["Fresh",counts.fresh,"#10b981"],["Expiring soon",counts.soon,"#f59e0b"],["Expiring today",counts.today,"#f97316"],["Expired",counts.expired,"#ef4444"]];
+  const tot=items.reduce((a,x)=>a+x[1],0)||1;let acc=0;
+  const g=items.map(([,n,c])=>{const s=acc;acc+=n/tot*100;return `${c} ${s}% ${acc}%`}).join(",");
+  return <div style={{display:"flex",gap:24,alignItems:"center",flexWrap:"wrap"}}><div className="donut" style={{background:items.reduce((a,x)=>a+x[1],0)?`conic-gradient(${g})`:"#e2e8f0"}}><b>{Math.round(counts.fresh/tot*100)}%</b></div>
+    <div className="leg">{items.map(([l,n,c])=><div key={l}><i style={{background:c}}/>{l} <b>{n}</b></div>)}</div></div>;}
+
+function Impact({data,compact}){return <>
+  <div className="stats"><div className="card stat"><small>Food diverted</small><div className="n" style={{color:"var(--gd)"}}>{data.kg_diverted} kg</div></div>
+    <div className="card stat"><small>Meals redistributed (est.)</small><div className="n">{data.meals}</div></div>
+    <div className="card stat"><small>CO₂e avoided (est.)</small><div className="n">{data.co2_kg} kg</div></div></div>
+  {!compact&&<div className="two"><div className="card"><h3>Diverted by category</h3><p className="d">kg of confirmed pickups</p>
+    {Object.keys(data.by_category).length?Object.entries(data.by_category).map(([k,v])=><div key={k} style={{marginBottom:8}}><div style={{display:"flex",justifyContent:"space-between"}}><span>{k}</span><b>{v} kg</b></div><div className="bar"><i style={{width:v/Math.max(...Object.values(data.by_category))*100+"%"}}/></div></div>):<Empty t="No completed pickups yet."/>}</div>
+    <div className="card"><h3>Monthly volume</h3><p className="d">kg of confirmed pickups</p>
+    {Object.keys(data.by_month).length?Object.entries(data.by_month).map(([k,v])=><div key={k} style={{marginBottom:8}}><div style={{display:"flex",justifyContent:"space-between"}}><span>{k}</span><b>{v} kg</b></div><div className="bar"><i style={{background:"var(--blu)",width:v/Math.max(...Object.values(data.by_month))*100+"%"}}/></div></div>):<Empty t="No completed pickups yet."/>}</div></div>}
+  <p style={{color:"var(--mu)",fontSize:12,margin:0}}>{data.note}</p></>;}
+
+function Dashboard({user,go}){const[d,reload,e]=useLoad("/dashboard");const[al]=useLoad("/alerts");
+  if(!d)return <Load d={d} e={e}/>;const mx=Math.max(1,...d.by_category.map(c=>c.units));
+  return <>
+    <div className="stats">
+      <div className="card stat"><small>Active inventory</small><div className="n">{d.products} <span style={{fontSize:16}}>products</span></div><small>{d.units} units · value ${d.value}</small></div>
+      <div className="card stat"><small>Needs attention</small><div className="n" style={{color:"var(--org)"}}>{d.counts.today+d.counts.soon} <span style={{fontSize:16}}>items</span></div><small>{d.counts.today} today · {d.counts.soon} soon · {d.counts.expired} expired</small></div>
+      <div className="card stat"><small>Pending NGO requests</small><div className="n">{d.pending_requests}</div><button className="link" onClick={()=>go("donations")}>Review requests</button></div>
+      <div className="card stat"><small>Food diverted</small><div className="n" style={{color:"var(--gd)"}}>{d.impact.kg_diverted} kg</div><small>{d.impact.meals} meals (est.)</small></div></div>
+    <div className="two"><div className="card"><h3>Expiry status</h3><p className="d">Your stock across life-cycle stages</p><Donut counts={d.counts}/></div>
+      <div className="card"><h3>Inventory by category</h3><p className="d">Units in stock</p>{d.by_category.length?d.by_category.map(c=><div key={c.category} style={{marginBottom:9}}><div style={{display:"flex",justifyContent:"space-between"}}><span>{c.category}</span><span>{c.items} items · {c.units} units</span></div><div className="bar"><i style={{width:c.units/mx*100+"%"}}/></div></div>):<Empty t="Add your first product to see this chart."/>}</div></div>
+    <div className="two"><div className="card"><h3>Waste-risk radar</h3><p className="d">Highest risk first. Based on stock vs recorded sales and days left.</p>
+      {d.urgent.length?d.urgent.map(p=><div key={p.id} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid var(--line)"}}><div><b>{p.name}</b><br/><small style={{color:"var(--mu)"}}>{p.quantity} {p.unit} · {statusText(p)}</small></div><div style={{textAlign:"right"}}><b>Risk {p.risk}</b><br/>{p.donable?<Pill s="fresh" t="Donable"/>:<Pill s="expired" t="No donation"/>}</div></div>):<Empty t="No products yet."/>}</div>
+      <div className="card"><h3>Expiry alerts</h3><p className="d">Computed live from your inventory</p>{al&&al.length?al.map(a=><div key={a.product_id} className={"alert "+a.status}><b>{a.name}</b> <Pill s={a.status} t={a.status==="expired"?"Expired":a.status==="today"?"Today":"Soon"}/><div style={{fontSize:13}}>{a.message}</div></div>):<Empty t="Nothing is close to expiry."/>}</div></div></>;}
+
+function Inventory({toast,cats}){
+  const[q,setQ]=useState("");const[d,reload,e]=useLoad("/inventory?q="+encodeURIComponent(q));const[m,setM]=useState(null);const[bc,setBc]=useState("");
+  const t=new Date().toISOString().slice(0,10);
+  const prodFields=p=>[{k:"name",label:"Product name *",req:1,wide:1,def:p?.name},{k:"barcode",label:"Barcode / SKU",def:p?.barcode||""},{k:"category",label:"Category *",opts:cats,def:p?.category||cats[0]},
+    {k:"quantity",label:"Quantity *",type:"number",req:1,min:0.001,def:p?.quantity},{k:"unit",label:"Unit *",opts:["units","kg","g","liters"],def:p?.unit||"units"},{k:"unit_price",label:"Unit price *",type:"number",req:1,min:0,def:p?.unit_price??""},
+    {k:"purchased",label:"Purchase date *",type:"date",req:1,def:p?.purchased||t},{k:"expiry",label:"Expiry date *",type:"date",req:1,def:p?.expiry},{k:"supplier",label:"Supplier",wide:1,def:p?.supplier||""},{k:"storage",label:"Storage instructions",wide:1,def:p?.storage||""}];
+  const save=p=>async v=>{const body={...v,barcode:v.barcode||null,quantity:+v.quantity,unit_price:+v.unit_price};await api(p?"/inventory/"+p.id:"/inventory",{method:p?"PUT":"POST",body});setM(null);toast(p?"Product updated":"Product added");reload()};
+  const lookup=async()=>{try{const p=await api("/inventory/barcode/"+encodeURIComponent(bc));toast(`${p.name}: ${p.quantity} ${p.unit}, ${statusText(p)}`);setQ(p.name)}catch(x){toast(x.message,1)}};
+  return <>
+    <div className="card"><h3>Barcode / SKU lookup</h3><p className="d">Type or scan a code from a handheld scanner. Camera scanning isn't included.</p><div className="row" style={{justifyContent:"flex-start"}}><input style={{padding:10,border:"1px solid #cbd5e1",borderRadius:10,minWidth:240}} placeholder="e.g. 7350053850019" value={bc} onChange={e=>setBc(e.target.value)}/><button className="btn pri" onClick={lookup}>Look up</button></div></div>
+    <div className="card"><div className="row" style={{justifyContent:"space-between",marginBottom:12}}><input style={{padding:10,border:"1px solid #cbd5e1",borderRadius:10,minWidth:240}} placeholder="Search product, supplier or category" value={q} onChange={e=>setQ(e.target.value)}/><button className="btn pri" onClick={()=>setM({add:1})}>+ Add product</button></div>
+    {!d?<Load d={d} e={e}/>:!d.length?<Empty t="No products found. Add one to start tracking expiry."/>:<div className="tw"><table><thead><tr><th>Product</th><th>Category</th><th>Stock</th><th>Expiry</th><th>Status</th><th>Waste risk</th><th></th></tr></thead><tbody>
+      {d.map(p=><tr key={p.id}><td><b>{p.name}</b><br/><small style={{color:"var(--mu)"}}>{p.supplier||"—"}</small></td><td>{p.category}</td><td>{p.quantity} {p.unit}</td><td>{p.expiry}</td>
+        <td><Pill s={p.status} t={statusText(p)}/></td><td title={`Daily demand ${p.daily_demand}; confidence ${p.confidence}${p.reorder?`; reorder ${p.reorder}`:""}`}><b>{p.risk}</b> <small style={{color:"var(--mu)"}}>{p.confidence.startsWith("low")?"low confidence":""}</small></td>
+        <td><div className="row">
+          <button className="btn sm" onClick={()=>setM({sale:p})}>Record sale</button>
+          <button className="btn sm pri" disabled={!p.donable} title={p.donable?"":"Expired or fully reserved"} onClick={()=>setM({list:p})}>List for donation</button>
+          <button className="btn sm" onClick={()=>setM({edit:p})}>Edit</button>
+          <button className="btn sm danger" onClick={async()=>{if(!confirm(`Delete ${p.name}?`))return;try{await api("/inventory/"+p.id,{method:"DELETE"});toast("Product deleted");reload()}catch(x){toast(x.message,1)}}}>Delete</button></div></td></tr>)}</tbody></table></div>}</div>
+    {m?.add&&<FormModal title="Add food product" fields={prodFields()} onSubmit={save()} onClose={()=>setM(null)} submit="Save product"/>}
+    {m?.edit&&<FormModal title={"Edit "+m.edit.name} fields={prodFields(m.edit)} onSubmit={save(m.edit)} onClose={()=>setM(null)}/>}
+    {m?.sale&&<FormModal title={"Record sale: "+m.sale.name} fields={[{k:"qty",label:`Quantity sold (${m.sale.unit})`,type:"number",req:1,min:0.001,wide:1}]} submit="Record sale" onClose={()=>setM(null)} onSubmit={async v=>{await api(`/inventory/${m.sale.id}/sale`,{body:{qty:+v.qty}});setM(null);toast("Sale recorded");reload()}}/>}
+    {m?.list&&<FormModal title={"Donate: "+m.list.name} submit="Publish listing" onClose={()=>setM(null)}
+      fields={[{k:"quantity",label:`Quantity (max ${m.list.free_quantity} ${m.list.unit})`,type:"number",req:1,min:0.001,def:m.list.free_quantity,wide:1},{k:"until",label:"Pickup available until *",type:"datetime-local",req:1,wide:1},{k:"addr",label:"Pickup address (blank = store address)",wide:1}]}
+      onSubmit={async v=>{await api("/listings",{body:{product_id:m.list.id,quantity:+v.quantity,available_until:v.until,pickup_address:v.addr}});setM(null);toast("Listing published");reload()}}/>}</>;}
+
+function Donations({toast}){
+  const[ls,rl,e]=useLoad("/listings");const[rq,rr]=useLoad("/requests");const[mt,setMt]=useState(null);const[acc,setAcc]=useState(null);
+  const refresh=()=>{rl();rr()};
+  const act=async(fn,msg)=>{try{await fn();toast(msg);refresh()}catch(x){toast(x.message,1)}};
+  if(!ls||!rq)return <Load d={ls&&rq} e={e}/>;
+  return <>
+    <div className="card"><h3>Your donation listings</h3><p className="d">Surplus you've offered to NGOs</p>
+    {!ls.length?<Empty t="No listings yet. Open Inventory and choose “List for donation”."/>:<div className="tw"><table><thead><tr><th>Item</th><th>Offered</th><th>Left</th><th>Expiry</th><th>Window ends</th><th>Status</th><th></th></tr></thead><tbody>
+      {ls.map(l=><tr key={l.id}><td><b>{l.product}</b></td><td>{l.quantity} {l.unit}</td><td>{l.remaining}</td><td>{l.expiry}</td><td>{fmt(l.available_until)}</td><td><Pill s={l.status==="open"?"fresh":l.status==="allocated"?"accepted":"expired"} t={l.status}/></td>
+        <td><div className="row"><button className="btn sm" disabled={l.status!=="open"} onClick={async()=>{try{setMt({l,m:await api(`/listings/${l.id}/matches`)})}catch(x){toast(x.message,1)}}}>Best-matched NGOs</button></div></td></tr>)}</tbody></table></div>}</div>
+    <div className="card"><h3>NGO requests</h3><p className="d">Accept to reserve quantity and set a pickup time</p>
+    {!rq.length?<Empty t="No requests yet."/>:<div className="tw"><table><thead><tr><th>NGO</th><th>Item</th><th>Quantity</th><th>Status</th><th>Pickup</th><th></th></tr></thead><tbody>
+      {rq.map(r=><tr key={r.id}><td><b>{r.ngo}</b></td><td>{r.product}</td><td>{r.quantity} {r.unit}</td><td><Pill s={r.status}/></td><td>{fmt(r.pickup_time)}</td>
+        <td><div className="row">{r.status==="pending"&&<><button className="btn sm pri" onClick={()=>setAcc(r)}>Accept</button><button className="btn sm danger" onClick={()=>act(()=>api(`/requests/${r.id}/decide`,{body:{accept:false}}),"Request declined")}>Decline</button></>}
+          {r.status==="accepted"&&<button className="btn sm pri" onClick={()=>act(()=>api(`/requests/${r.id}/picked-up`,{method:"POST"}),"Pickup confirmed")}>Mark picked up</button>}</div></td></tr>)}</tbody></table></div>}</div>
+    {acc&&<FormModal title={`Accept ${acc.ngo}'s request`} submit="Accept request" onClose={()=>setAcc(null)} fields={[{k:"t",label:"Pickup time (leave blank to use the end of the window)",type:"datetime-local",wide:1}]}
+      onSubmit={async v=>{await api(`/requests/${acc.id}/decide`,{body:{accept:true,pickup_time:v.t||null}});setAcc(null);toast("Request accepted");refresh()}}/>}
+    {mt&&<div className="ov" onClick={()=>setMt(null)}><div className="modal" onClick={e=>e.stopPropagation()}><h3>Best matches for {mt.l.product}</h3><p style={{color:"var(--mu)",fontSize:13}}>Score: 35% category fit, 25% quantity fit, 25% proximity, 15% urgency.</p>
+      {mt.m.length?mt.m.map(x=><div key={x.ngo_id} style={{padding:"10px 0",borderBottom:"1px solid var(--line)"}}><div style={{display:"flex",justifyContent:"space-between"}}><b>{x.ngo}</b><b>{x.score}/100</b></div><div className="bar"><i style={{width:x.score+"%"}}/></div><ul className="why">{x.reasons.map(r=><li key={r}>{r}</li>)}</ul></div>):<Empty t="No NGOs registered yet."/>}
+      <div className="row" style={{marginTop:12}}><button className="btn" onClick={()=>setMt(null)}>Close</button></div></div></div>}</>;}
+
+function Feed({toast}){
+  const[ls,rl,e]=useLoad("/listings");const[m,setM]=useState(null);const[cat,setCat]=useState("All");
+  if(!ls)return <Load d={ls} e={e}/>;const cats=["All",...new Set(ls.map(l=>l.category))];const sh=ls.filter(l=>cat==="All"||l.category===cat);
+  return <><div className="card"><h3>Available surplus</h3><p className="d">Ranked for your organisation. Update needs, capacity and location in your profile for better scores.</p>
+    <div className="row" style={{justifyContent:"flex-start"}}>{cats.map(c=><button key={c} className={"btn sm"+(cat===c?" pri":"")} onClick={()=>setCat(c)}>{c}</button>)}</div></div>
+    {!sh.length?<div className="card"><Empty t="No open listings match right now."/></div>:<div className="two">{sh.map(l=><div className="card" key={l.id}>
+      <div style={{display:"flex",justifyContent:"space-between",gap:8}}><div><h3>{l.product}</h3><small style={{color:"var(--mu)"}}>{l.donor} · {l.category}</small></div><div style={{textAlign:"right"}}><b style={{fontSize:22,color:"var(--gd)"}}>{l.score}</b><br/><small>match</small></div></div>
+      <div className="bar"><i style={{width:l.score+"%"}}/></div><ul className="why">{l.reasons.map(r=><li key={r}>{r}</li>)}</ul>
+      <p style={{margin:"8px 0",fontSize:13}}><b>{l.remaining} {l.unit}</b> left · <Pill s={l.days_left<=0?"today":l.days_left<=3?"soon":"fresh"} t={l.days_left===0?"Expires today":`${l.days_left}d left`}/><br/>Pickup by {fmt(l.available_until)} at {l.pickup_address}{l.storage?` · Storage: ${l.storage}`:""}</p>
+      <button className="btn pri" onClick={()=>setM(l)}>Request</button></div>)}</div>}
+    {m&&<FormModal title={"Request "+m.product} submit="Send request" onClose={()=>setM(null)} fields={[{k:"q",label:`Quantity (max ${m.remaining} ${m.unit})`,type:"number",req:1,min:0.001,def:Math.min(m.remaining,m.remaining),wide:1}]}
+      onSubmit={async v=>{await api("/requests",{body:{listing_id:m.id,quantity:+v.q}});setM(null);toast("Request sent");rl()}}/>}</>;}
+
+function MyRequests(){const[rq,,e]=useLoad("/requests");if(!rq)return <Load d={rq} e={e}/>;
+  return <div className="card"><h3>My requests and pickups</h3><p className="d">Track each donation from request to pickup</p>
+    {!rq.length?<Empty t="You haven't requested anything yet. Browse the feed."/>:<div className="tw"><table><thead><tr><th>Item</th><th>From</th><th>Quantity</th><th>Status</th><th>Pickup time</th><th>Pickup address</th></tr></thead><tbody>
+    {rq.map(r=><tr key={r.id}><td><b>{r.product}</b></td><td>{r.donor}</td><td>{r.quantity} {r.unit}</td><td><Pill s={r.status}/></td><td>{fmt(r.pickup_time)}</td><td>{r.pickup_address}</td></tr>)}</tbody></table></div>}</div>;}
+
+function ImpactPage(){const[d,,e]=useLoad("/impact");return d?<Impact data={d}/>:<Load d={d} e={e}/>;}
+
+function Admin(){const[d,,e]=useLoad("/admin/overview");if(!d)return <Load d={d} e={e}/>;
+  const S=(l,n)=><div className="card stat"><small>{l}</small><div className="n">{n}</div></div>;
+  return <><div className="stats">{S("Supermarkets",d.supermarkets)}{S("NGOs",d.ngos)}{S("Products tracked",d.products)}{S("Open listings",d.listings.open)}{S("Pending requests",d.requests.pending)}{S("Completed pickups",d.requests.picked_up)}{S("Expired listings",d.listings.expired)}</div>
+    <Impact data={d.impact} compact/>
+    <div className="card"><h3>Users</h3><div className="tw"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead><tbody>{d.users.map(u=><tr key={u.id}><td>{u.name}</td><td>{u.email}</td><td>{u.role}</td><td>{fmt(u.created_at)}</td></tr>)}</tbody></table></div></div></>;}
+
+function Bell({toast}){const[n,reload]=useLoad("/notifications");const[open,setOpen]=useState(false);
+  useEffect(()=>{const i=setInterval(reload,30000);return()=>clearInterval(i)},[reload]);const un=(n||[]).filter(x=>!x.read).length;
+  return <div style={{position:"relative"}}><button className="btn" aria-label="Notifications" onClick={()=>setOpen(!open)}>🔔{un>0&&<b style={{color:"var(--red)"}}> {un}</b>}</button>
+    {open&&<div className="card" style={{position:"absolute",right:0,top:44,width:320,maxHeight:360,overflow:"auto",zIndex:9,boxShadow:"0 10px 30px #0003"}}>
+      <div className="row" style={{justifyContent:"space-between"}}><b>Notifications</b><button className="link" onClick={async()=>{await api("/notifications/read-all",{method:"POST"});reload()}}>Mark all read</button></div>
+      {!n||!n.length?<Empty t="You're all caught up."/>:n.map(x=><div key={x.id} style={{padding:"8px 0",borderBottom:"1px solid var(--line)",fontWeight:x.read?400:700,fontSize:13}}>{x.text}<br/><small style={{color:"var(--mu)",fontWeight:400}}>{fmt(x.created_at)}</small></div>)}</div>}</div>;}
+
+function App(){
+  const[user,setUser]=useState(null);const[ready,setReady]=useState(!TOKEN);const[page,setPage]=useState("");const[tt,setTt]=useState(null);const[menu,setMenu]=useState(false);const[cats,setCats]=useState([]);
+  const toast=(m,bad)=>{setTt({m,bad});setTimeout(()=>setTt(null),3500)};
+  useEffect(()=>{if(TOKEN)api("/auth/me").then(u=>{setUser(u);setReady(true)}).catch(()=>setReady(true));api("/categories").then(setCats).catch(()=>{})},[]);
+  const NAV={supermarket:[["dashboard","Main Dashboard"],["inventory","Food Inventory"],["donations","Donations & Surplus"],["impact","Impact"]],ngo:[["feed","Available Food"],["requests","My Requests"],["impact","Impact"]],admin:[["admin","Platform Overview"]]};
+  if(!ready)return null;if(!user)return <><Auth toast={toast} onAuth={u=>{setUser(u);setPage("")}}/>{tt&&<div className={"toast"+(tt.bad?" bad":"")}>{tt.m}</div>}</>;
+  const nav=NAV[user.role];const cur=page||nav[0][0];const title=nav.find(n=>n[0]===cur)[1];
+  const body={dashboard:<Dashboard user={user} go={setPage}/>,inventory:<Inventory toast={toast} cats={cats}/>,donations:<Donations toast={toast}/>,impact:<ImpactPage/>,feed:<Feed toast={toast}/>,requests:<MyRequests/>,admin:<Admin/>}[cur];
+  return <div className="app"><aside className={"side"+(menu?" open":"")}>
+    <div className="brand"><div className="logo">🌿</div><div><b>FoodWise AI</b><small>Surplus &amp; Waste Optimization</small></div></div>
+    {nav.map(([k,l])=><button key={k} className={"nav"+(cur===k?" on":"")} onClick={()=>{setPage(k);setMenu(false)}}>{l}</button>)}
+    <div className="me"><b>{user.name}</b><small>{user.role==="supermarket"?"Supermarket":user.role==="ngo"?"NGO":"Admin"}</small>
+      <button className="btn full" style={{background:"none",color:"#cbd5e1",borderColor:"#334155"}} onClick={()=>{localStorage.removeItem("fw_token");TOKEN=null;setUser(null)}}>Sign out</button></div></aside>
+    <div className="main"><div className="top"><div><button className="btn menu" onClick={()=>setMenu(!menu)} aria-label="Menu">☰</button> <small>Dashboard / {title}</small><h2>{title}</h2></div><Bell toast={toast}/></div>
+      <div className="pad" key={cur}>{body}</div></div>{tt&&<div className={"toast"+(tt.bad?" bad":"")} role="status">{tt.m}</div>}</div>;}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script></body></html>
